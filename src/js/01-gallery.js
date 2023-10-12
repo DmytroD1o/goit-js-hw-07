@@ -1,11 +1,9 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
 
 const listImages = document.querySelector(".gallery");
 
-console.log(listImages);
 
 const imagesMarkup = createImagesListMarkup(galleryItems);
 
@@ -40,20 +38,21 @@ function onCardsContainerClick (evt) {
     
     const instance = basicLightbox.create(`
     <img src="${evt.target.dataset.source}" width="800" height="600">
-`)
+`, {
+  onShow: (instance) => {document.addEventListener('keydown', keyListener)},
+  onClose: (instance) => {document.removeEventListener('keydown', keyListener)}
+})
 
 instance.show()
 
-listImages.addEventListener('keydown', (evt) =>
-{
-    if(evt.code === "Escape") {
-        instance.close()
-    }
-})
-
-
 }
 
+
+function keyListener (evt) {
+  if(evt.code === "Escape") {
+    instance.close()
+}
+}
 
 
 
